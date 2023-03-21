@@ -10,7 +10,7 @@ using Vintagestory.API.MathTools;
 	Description = "Enables Mumble positional audio support through its Link plugin",
 	Website = "https://github.com/copygirl/MumbleLink",
 	Authors = new []{ "copygirl", "Nikky" },
-	Version = "1.2.0", Side = "Client")]
+	Version = "1.3.0", Side = "Client")]
 
 namespace MumbleLink
 {
@@ -75,8 +75,8 @@ namespace MumbleLink
 			// so we actually have the flip the X coordinate to get the right values.
 			static Vec3d FlipX(Vec3d vec) => new(-vec.X, vec.Y, vec.Z);
 			
-			var headPitch = entity.HeadPitch;
-			var headYaw   = entity.BodyYaw + entity.HeadYaw;
+			var headPitch = entity.Pos.HeadPitch;
+			var headYaw   = entity.Pos.Yaw + entity.Pos.HeadYaw;
 			_data.AvatarPosition = FlipX(entity.Pos.XYZ + entity.LocalEyePos);
 			_data.AvatarFront = new Vec3d(
 				-GameMath.Cos(headYaw) * GameMath.Cos(headPitch),
@@ -84,10 +84,7 @@ namespace MumbleLink
 				-GameMath.Sin(headYaw) * GameMath.Cos(headPitch));
 			
 			_data.CameraPosition = FlipX(entity.CameraPos);
-			_data.CameraFront = new Vec3d(
-				-GameMath.Cos(player.CameraYaw) * -GameMath.Cos(player.CameraPitch),
-				 GameMath.Sin(player.CameraPitch),
-				-GameMath.Sin(player.CameraYaw) * -GameMath.Cos(player.CameraPitch));
+			_data.CameraFront = _data.AvatarFront;
 			
 			_stream.Position = 0;
 			_data.Write(_stream);
