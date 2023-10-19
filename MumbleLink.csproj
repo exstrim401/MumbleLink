@@ -1,16 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<AssemblyTitle>MumbleLink</AssemblyTitle>
-		<Authors>copygirl</Authors>
-		<Version>1.3.0</Version>
-		
-		<Description>Vintage Story mod that enables Mumble positional audio support through its Link plugin</Description>
-		<RepositoryUrl>https://github.com/copygirl/MumbleLink</RepositoryUrl>
-		
 		<TargetFramework>net461</TargetFramework>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<Reference Include="VintagestoryAPI">
 			<HintPath>$(VINTAGE_STORY)/VintagestoryAPI.dll</HintPath>

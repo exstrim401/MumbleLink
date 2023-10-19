@@ -6,12 +6,6 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 
-[assembly: ModInfo("MumbleLink",
-	Description = "Enables Mumble positional audio support through its Link plugin",
-	Website = "https://github.com/copygirl/MumbleLink",
-	Authors = new []{ "copygirl", "Nikky" },
-	Version = "1.3.0", Side = "Client")]
-
 namespace MumbleLink
 {
 	public class MumbleLinkSystem : ModSystem, IDisposable
