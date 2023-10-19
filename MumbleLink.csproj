@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net461</TargetFramework>
 		<LangVersion>latest</LangVersion>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -10,15 +11,14 @@
 			<Private>false</Private>
 		</Reference>
 	</ItemGroup>
-	
-	<ItemGroup Condition="'$(Configuration)' == 'Release'">
-		<None Include="UNLICENSE" CopyToOutputDirectory="PreserveNewest" />
+
+	<ItemGroup>
 		<None Include="resources/**">
 			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
-	
+
 	<Target Name="Package" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
 		<ZipDirectory DestinationFile="bin/$(TargetName).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
 	</Target>
