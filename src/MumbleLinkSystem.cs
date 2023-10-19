@@ -20,17 +20,17 @@ namespace MumbleLink
 		private MemoryMappedFile _mappedFile;
 		private MemoryMappedViewStream _stream;
 		private FileSystemWatcher _watcher;
-		
+
 		private readonly MumbleLinkData _data = new();
-		
+
 		public override void StartClientSide(ICoreClientAPI api)
 		{
 			_api = api;
 			api.Event.RegisterGameTickListener(OnGameTick, 20);
-			
+
 			if (Environment.OSVersion.Platform == PlatformID.Unix) {
 				var fileName = $"/dev/shm/MumbleLink.{getuid()}";
-				
+
 				void OnCreated(object sender, FileSystemEventArgs e)
 				{
 					Mod.Logger.Notification("Link established");
@@ -45,10 +45,10 @@ namespace MumbleLink
 					_stream     = null;
 					_mappedFile = null;
 				}
-				
+
 				if (File.Exists(fileName))
 					OnCreated(null, null);
-				
+
 				_watcher = new FileSystemWatcher(Path.GetDirectoryName(fileName), Path.GetFileName(fileName));
 				_watcher.Created += OnCreated;
 				_watcher.Deleted += OnDeleted;
@@ -58,23 +58,23 @@ namespace MumbleLink
 				_stream     = _mappedFile.CreateViewStream(0, MumbleLinkData.Size);
 			}
 		}
-		
+
 		private void OnGameTick(float delta)
 		{
 			if ((_stream == null) || (_api.World?.Player == null) || _api.IsSinglePlayer) return;
 			_data.UITick++;
-			
+
 			_data.Context  = _api.World.Seed.ToString();
 			_data.Identity = _api.World.Player.PlayerUID;
-			
+
 			var player = _api.World.Player;
 			var entity = player.Entity;
-			
+
 			// Mumble Link uses left-handed coordinate system (+X is to the right)
 			// wheras Vintage Story uses a right-handed one (where +X is to the left),
 			// so we actually have the flip the X coordinate to get the right values.
 			static Vec3d FlipX(Vec3d vec) => new(-vec.X, vec.Y, vec.Z);
-			
+
 			var headPitch = entity.Pos.HeadPitch;
 			var headYaw   = entity.Pos.Yaw + entity.Pos.HeadYaw;
 			_data.AvatarPosition = FlipX(entity.Pos.XYZ + entity.LocalEyePos);
@@ -82,21 +82,21 @@ namespace MumbleLink
 				-GameMath.Cos(headYaw) * GameMath.Cos(headPitch),
 				-GameMath.Sin(headPitch),
 				-GameMath.Sin(headYaw) * GameMath.Cos(headPitch));
-			
+
 			_data.CameraPosition = FlipX(entity.CameraPos);
 			_data.CameraFront = _data.AvatarFront;
-			
+
 			_stream.Position = 0;
 			_data.Write(_stream);
 		}
-		
+
 		public override void Dispose()
 		{
 			_watcher?.Dispose();
 			_stream?.Dispose();
 			_mappedFile?.Dispose();
 		}
-		
+
 		[DllImport("libc")]
 		private static extern uint getuid();
 	}
