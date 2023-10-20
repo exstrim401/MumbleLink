@@ -10,9 +10,6 @@ namespace MumbleLink
 		public static bool IsUnix { get; } = Environment.OSVersion.Platform == PlatformID.Unix;
 		public static int Size { get; } = IsUnix ? 10580 : 5460;
 
-		public uint UIVersion { get; } = 2;
-		public uint UITick { get; set; }
-
 		/// <summary> The display name of this link. Will be shown in the Mumble chat log when linked. </summary>
 		public string Name { get; set; } = "Vintage Story";
 		/// <summary> The description of this link. </summary>
@@ -33,12 +30,11 @@ namespace MumbleLink
 		public Vec3d CameraFront { get; set; } = Vec3d.Zero;
 		public Vec3d CameraTop { get; set; } = Vec3d.Zero;
 
-		public void Write(Stream stream)
+		public byte[] ToBytes()
 		{
+			var stream = new MemoryStream();
 			var encoding = (Environment.OSVersion.Platform == PlatformID.Unix) ? Encoding.UTF32 : Encoding.Unicode;
 			using var writer = new BinaryWriter(stream, encoding, true);
-			writer.Write(UIVersion);
-			writer.Write(UITick);
 			WriteVec3d(writer, AvatarPosition);
 			WriteVec3d(writer, AvatarFront);
 			WriteVec3d(writer, AvatarTop);
@@ -49,6 +45,8 @@ namespace MumbleLink
 			WriteString(writer, 256, Identity);
 			WriteString(writer, 256, Context, Encoding.UTF8, true);
 			WriteString(writer, 2048, Description);
+
+			return stream.ToArray();
 		}
 
 		private void WriteVec3d(BinaryWriter writer, Vec3d vector)
