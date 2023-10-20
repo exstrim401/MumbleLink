@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<OutputPath>$(SolutionDir)\bin\$(Configuration)\Mods\mod</OutputPath>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<UseAppHost>false</UseAppHost>
+		<OutputType>EXE</OutputType>
+	</PropertyGroup>
+</Project>

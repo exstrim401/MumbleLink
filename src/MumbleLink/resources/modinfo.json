@@ -1,0 +1,10 @@
+{
+    "type": "code",
+    "modid": "mumblelinkfork",
+    "name": "MumbleLink",
+    "version": "1.4.0",
+    "description": "Enables Mumble positional audio support through its Link plugin",
+    "website": "https://github.com/Dmitry221060/MumbleLink",
+    "authors": [ "Dmitry221060", "copygirl" ],
+    "contributors": [ "Nikky" ]
+}

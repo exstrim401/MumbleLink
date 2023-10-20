@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net461</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<OutputPath>$(SolutionDir)\bin\$(Configuration)\Mods\mod</OutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -13,13 +14,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="resources/**">
+		<None Include="resources\**">
 			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 
 	<Target Name="Package" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
-		<ZipDirectory DestinationFile="bin/$(TargetName).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
+		<ZipDirectory DestinationFile="$(SolutionDir)\bin\$(TargetName).zip" SourceDirectory="$(TargetDir)" Overwrite="true" />
 	</Target>
 </Project>
