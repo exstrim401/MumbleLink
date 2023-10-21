@@ -5,7 +5,7 @@ using Vintagestory.API.MathTools;
 
 namespace MumbleLink
 {
-	public class MumbleLinkData
+	public class PositionInfo
 	{
 		public static bool IsUnix { get; } = Environment.OSVersion.Platform == PlatformID.Unix;
 		public static int Size { get; } = IsUnix ? 10580 : 5460;
