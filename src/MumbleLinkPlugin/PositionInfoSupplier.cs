@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO.MemoryMappedFiles;
+using System;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MumbleLinkPlugin
 {
@@ -12,7 +12,7 @@ namespace MumbleLinkPlugin
     /// Supplies position info to mumble Link plugin.
     /// Will cache and repeat latest received position to prevent mumble from losing connection with the game.
     /// </summary>
-    public class PositionInfoSupplier: IDisposable
+    public class PositionInfoSupplier : IDisposable
     {
         public int structSize;
         private CancellationTokenSource _supplyCTS;
