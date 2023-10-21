@@ -26,7 +26,7 @@ namespace MumbleLinkPlugin
 
         public PositionInfoSupplier(int structSize)
         {
-            this.structSize = structSize;
+            this.structSize = structSize + sizeof(uint) * 2;
             _supplyCTS = new CancellationTokenSource();
         }
 
