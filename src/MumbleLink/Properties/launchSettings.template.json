@@ -1,0 +1,16 @@
+{
+    "profiles": {
+        "Client": {
+            "commandName": "Executable",
+            "executablePath": "$(VINTAGE_STORY)/Vintagestory.exe",
+            "commandLineArgs": "--tracelog --addModPath $(SolutionDir)/bin/$(Configuration)/Mods --dataPath $(SolutionDir)/bin/$(Configuration)/VintagestoryDataClient",
+            "workingDirectory": "$(VINTAGE_STORY)"
+        },
+        "Server": {
+            "commandName": "Executable",
+            "executablePath": "$(VINTAGE_STORY)/VintagestoryServer.exe",
+            "commandLineArgs": "--tracelog --addModPath $(SolutionDir)/bin/$(Configuration)/Mods --dataPath $(SolutionDir)/bin/$(Configuration)/VintagestoryDataServer",
+            "workingDirectory": "$(VINTAGE_STORY)"
+        }
+    }
+}
