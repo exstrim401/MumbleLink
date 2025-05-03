@@ -6,5 +6,5 @@
   "description": "Enables Mumble positional audio support through its Link plugin",
   "website": "https://github.com/exstrim401/MumbleLink",
   "authors": ["Dmitry221060", "copygirl"],
-  "contributors": ["Nikky", "exstrim401"]
+  "contributors": ["Nikky", "Nebual", "exstrim401"]
 }
