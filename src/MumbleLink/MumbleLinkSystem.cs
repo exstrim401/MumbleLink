@@ -85,7 +85,7 @@ namespace MumbleLink
             static Vec3d FlipX(Vec3d vec) => new(-vec.X, vec.Y, vec.Z);
 
             var headPitch = entity.Pos.HeadPitch;
-            var headYaw = entity.Pos.Yaw + entity.Pos.HeadYaw;
+            var headYaw = entity.Pos.Yaw + entity.Pos.HeadYaw - MathF.PI / 2;
             positionInfo.AvatarPosition = FlipX(entity.Pos.XYZ + entity.LocalEyePos);
             positionInfo.AvatarFront = new Vec3d(
                 -GameMath.Cos(headYaw) * GameMath.Cos(headPitch),

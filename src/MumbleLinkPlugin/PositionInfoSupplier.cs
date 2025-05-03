@@ -37,33 +37,19 @@ namespace MumbleLinkPlugin
                 _mappedFile = MemoryMappedFile.CreateOrOpen("MumbleLink", structSize);
                 _stream = _mappedFile.CreateViewStream(0, structSize);
                 _streamWriter = new BinaryWriter(_stream, Encoding.Unicode, true);
-                return;
             }
-
-            var fileName = $"/dev/shm/MumbleLink.{getuid()}";
-            void OnCreated(object sender, FileSystemEventArgs e)
+            else if (OperatingSystem.IsLinux())
             {
-                _mappedFile = MemoryMappedFile.CreateFromFile(fileName);
+                _mappedFile = MemoryMappedFile.CreateFromFile($"/dev/shm/MumbleLink.{getuid()}", System.IO.FileMode.OpenOrCreate, null, structSize);
                 _stream = _mappedFile.CreateViewStream(0, structSize);
                 _streamWriter = new BinaryWriter(_stream, Encoding.UTF32, true);
             }
-            void OnDeleted(object sender, FileSystemEventArgs e)
+            else if (OperatingSystem.IsMacOS())
             {
-                _streamWriter.Dispose();
-                _stream.Dispose();
-                _mappedFile.Dispose();
-                _streamWriter = null;
-                _stream = null;
-                _mappedFile = null;
+                _mappedFile = MemoryMappedFile.CreateOrOpen($"MumbleLink.{getuid()}", structSize);
+                _stream = _mappedFile.CreateViewStream(0, structSize);
+                _streamWriter = new BinaryWriter(_stream, Encoding.UTF32, true);
             }
-
-            if (File.Exists(fileName))
-                OnCreated(null, null);
-
-            _watcher = new FileSystemWatcher(Path.GetDirectoryName(fileName), Path.GetFileName(fileName));
-            _watcher.Created += OnCreated;
-            _watcher.Deleted += OnDeleted;
-            _watcher.EnableRaisingEvents = true;
         }
 
         public async void Start()
