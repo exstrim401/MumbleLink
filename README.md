@@ -1,4 +1,4 @@
-# MumbleLink
+# MumbleLinkExs
 
 .. is a *[Vintage Story]* mod which enables *[Mumble]* positional audio through its Link plugin.
 
@@ -13,7 +13,7 @@ This mod requires separate voice chat program [Mumble], and a Mumble server to c
 
 If you are player, this mod should automatically be downloaded when you join the server.
 
-If you are server host, you can download latest version on the mod from the [Mod Page](https://mods.vintagestory.at/mumblelink) or [GitHub Releases](https://github.com/Dmitry221060/MumbleLink/releases).
+If you are server host, you can download latest version on the mod from the [Mod Page](https://mods.vintagestory.at/mumblelinkexs).
 
 To install, put the `.zip` file you downloaded into the mods folder **without extracting it**.
 
