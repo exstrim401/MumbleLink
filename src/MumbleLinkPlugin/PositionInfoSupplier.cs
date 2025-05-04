@@ -20,7 +20,8 @@ namespace MumbleLinkPlugin
         private uint UITick;
         private byte[] latestPositionInfo;
         private MemoryMappedFile _mappedFile;
-        private MemoryMappedViewStream _stream;
+        private SharedMemory _sharedMemory;
+        private Stream _stream;
         private BinaryWriter _streamWriter;
         private FileSystemWatcher _watcher;
 
@@ -38,16 +39,17 @@ namespace MumbleLinkPlugin
                 _stream = _mappedFile.CreateViewStream(0, structSize);
                 _streamWriter = new BinaryWriter(_stream, Encoding.Unicode, true);
             }
-            else if (OperatingSystem.IsLinux())
+            else
             {
-                _mappedFile = MemoryMappedFile.CreateFromFile($"/dev/shm/MumbleLink.{getuid()}", System.IO.FileMode.OpenOrCreate, null, structSize);
-                _stream = _mappedFile.CreateViewStream(0, structSize);
-                _streamWriter = new BinaryWriter(_stream, Encoding.UTF32, true);
-            }
-            else if (OperatingSystem.IsMacOS())
-            {
-                _mappedFile = MemoryMappedFile.CreateOrOpen($"MumbleLink.{getuid()}", structSize);
-                _stream = _mappedFile.CreateViewStream(0, structSize);
+                try
+                {
+                    _sharedMemory = new SharedMemory($"/MumbleLink.{getuid()}", structSize);
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+                _stream = _sharedMemory._stream;
                 _streamWriter = new BinaryWriter(_stream, Encoding.UTF32, true);
             }
         }
@@ -57,7 +59,7 @@ namespace MumbleLinkPlugin
             var ct = _supplyCTS.Token;
             while (!ct.IsCancellationRequested)
             {
-                if (latestPositionInfo != null && latestPositionInfo.Length > 0)
+                if (latestPositionInfo != null && latestPositionInfo.Length > 0 && _streamWriter != null)
                 {
                     _stream.Position = 0;
                     _streamWriter.Write(UIVersion);
@@ -84,6 +86,7 @@ namespace MumbleLinkPlugin
             _streamWriter?.Dispose();
             _watcher?.Dispose();
             _stream?.Dispose();
+            _sharedMemory?.Dispose();
             _mappedFile?.Dispose();
         }
     }

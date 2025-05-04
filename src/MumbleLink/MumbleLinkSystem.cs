@@ -37,11 +37,16 @@ namespace MumbleLink
             var consumerDll = Path.Combine(currentDir, $"{nameof(MumbleLinkPlugin)}.dll");
 
             pipeServer = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable);
+            string fileName = "dotnet";
+            if (OperatingSystem.IsMacOS())
+            {
+                fileName = "/usr/local/share/dotnet/x64/dotnet";
+            }
             consumerProcess = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = "dotnet",
+                    FileName = fileName,
                     Arguments = $"{consumerDll} {PositionInfo.Size} {pipeServer.GetClientHandleAsString()}",
                     UseShellExecute = false,
                     WindowStyle = ProcessWindowStyle.Hidden,
