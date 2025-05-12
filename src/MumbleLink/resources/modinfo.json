@@ -2,7 +2,7 @@
   "type": "code",
   "modid": "mumblelinkexs",
   "name": "MumbleLink",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Enables Mumble positional audio support through its Link plugin",
   "website": "https://github.com/exstrim401/MumbleLink",
   "authors": ["Dmitry221060", "copygirl"],

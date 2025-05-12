@@ -41,14 +41,7 @@ namespace MumbleLinkPlugin
             }
             else
             {
-                try
-                {
-                    _sharedMemory = new SharedMemory($"/MumbleLink.{getuid()}", structSize);
-                }
-                catch (Exception ex)
-                {
-                    return;
-                }
+                _sharedMemory = new SharedMemory($"MumbleLink.{getuid()}", structSize);
                 _stream = _sharedMemory._stream;
                 _streamWriter = new BinaryWriter(_stream, Encoding.UTF32, true);
             }
